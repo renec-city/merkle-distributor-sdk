@@ -1,14 +1,13 @@
 import { BN, web3 } from '@coral-xyz/anchor';
 import * as anchor from '@coral-xyz/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { TransactionInstruction } from '@solana/web3.js';
+import { PublicKey, TransactionInstruction } from '@solana/web3.js';
 
 import { MerkleDistributor as MerkleDistributorType } from './types/merkle_distributor';
 import {
   createMerkleDistributorProgram,
   deriveClaimStatus,
   getOrCreateATAInstruction,
-  MERKLE_DISTRIBUTOR_PROGRAM_ID,
 } from './utils';
 
 export interface UserResponse {
@@ -27,9 +26,10 @@ export class MerkleDistributor {
     options: {
       targetToken: web3.PublicKey;
       claimProofEndpoint: string;
+      merkleDistributorProgramId: PublicKey;
     },
   ) {
-    this.mdProgram = createMerkleDistributorProgram(this.provider, MERKLE_DISTRIBUTOR_PROGRAM_ID);
+    this.mdProgram = createMerkleDistributorProgram(this.provider, options.merkleDistributorProgramId);
     this.mint = options.targetToken;
     this.claimProofEndpoint = options.claimProofEndpoint;
   }

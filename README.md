@@ -25,6 +25,7 @@ const provider = new AnchorProvider(mainnetConnection, mockWallet, {
 const merkleDistributor = new MerkleDistributor(provider, {
   targetToken: new PublicKey(TARGET_TOKEN), // the token to be distributed.
   claimProofEndpoint: 'https://worker.jup.ag/jup-claim-proof',
+  merkleDistributorProgramId: new PublicKey(MERKLE_DISTRIBUTOR_PROGRAM_ID),
 });
 ```
 
