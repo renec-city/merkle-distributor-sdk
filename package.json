@@ -1,5 +1,5 @@
 {
-  "name": "@jup-ag/merkle-distributor-sdk",
+  "name": "@renec-city/merkle-distributor-sdk",
   "version": "0.0.3",
   "description": "Merkle distributor SDK",
   "main": "dist/cjs/index.js",
@@ -27,10 +27,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jup-ag/merkle-distributor-sdk.git"
+    "url": "git+https://github.com/renec-city/merkle-distributor-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/jup-ag/merkle-distributor-sdk/issues"
+    "url": "https://github.com/renec-city/merkle-distributor-sdk/issues"
   },
-  "homepage": "https://github.com/jup-ag/merkle-distributor-sdk#readme"
+  "homepage": "https://github.com/renec-city/merkle-distributor-sdk#readme"
 }
