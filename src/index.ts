@@ -36,7 +36,7 @@ export class MerkleDistributor {
 
   async getUser(claimant: web3.PublicKey): Promise<UserResponse | null> {
     try {
-      const res = await fetch(`${this.claimProofEndpoint}/${this.mint.toBase58()}/${claimant.toBase58()}`);
+      const res = await fetch(`${this.claimProofEndpoint}/user/${claimant.toBase58()}`);
 
       if (!res.ok) {
         return null;

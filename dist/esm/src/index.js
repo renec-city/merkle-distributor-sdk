@@ -20,7 +20,7 @@ export class MerkleDistributor {
     getUser(claimant) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const res = yield fetch(`${this.claimProofEndpoint}/${this.mint.toBase58()}/${claimant.toBase58()}`);
+                const res = yield fetch(`${this.claimProofEndpoint}/user/${claimant.toBase58()}`);
                 if (!res.ok) {
                     return null;
                 }
