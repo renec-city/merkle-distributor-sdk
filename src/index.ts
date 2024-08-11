@@ -47,6 +47,10 @@ export class MerkleDistributor {
     this.claimProofEndpoint = options.claimProofEndpoint;
   }
 
+  get program() {
+    return this.mdProgram;
+  }
+
   async getDistributorStatus(): Promise<any | null> {
     try {
       const res = await fetch(`${this.claimProofEndpoint}/distributors`);
