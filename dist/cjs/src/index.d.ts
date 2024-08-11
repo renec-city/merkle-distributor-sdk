@@ -1,6 +1,7 @@
 import { BN, web3 } from '@coral-xyz/anchor';
 import * as anchor from '@coral-xyz/anchor';
 import { PublicKey } from '@solana/web3.js';
+import { MerkleDistributor as MerkleDistributorType } from './types/merkle_distributor';
 export interface UserResponse {
     merkle_tree: string;
     amount: number;
@@ -28,6 +29,7 @@ export declare class MerkleDistributor {
         claimProofEndpoint: string;
         merkleDistributorProgramId: PublicKey;
     });
+    get program(): anchor.Program<MerkleDistributorType> | undefined;
     getDistributorStatus(): Promise<any | null>;
     getUser(claimant: web3.PublicKey): Promise<UserResponse | null>;
     claimToken(claimant: web3.PublicKey): Promise<web3.TransactionInstruction[] | undefined>;

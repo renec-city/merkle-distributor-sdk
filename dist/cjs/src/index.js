@@ -20,6 +20,9 @@ class MerkleDistributor {
         this.mint = options.targetToken;
         this.claimProofEndpoint = options.claimProofEndpoint;
     }
+    get program() {
+        return this.mdProgram;
+    }
     getDistributorStatus() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
