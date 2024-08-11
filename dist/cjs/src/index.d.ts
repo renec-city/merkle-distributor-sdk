@@ -6,6 +6,18 @@ export interface UserResponse {
     amount: number;
     proof: number[][];
 }
+export interface DistributorResponse {
+    max_num_nodes: number;
+    max_total_claim: BN;
+    trees: Array<SingleDistributor>;
+}
+export interface SingleDistributor {
+    distributor_pubkey: String;
+    merkle_root: Array<number>;
+    airdrop_version: number;
+    max_num_nodes: number;
+    max_total_claim: number;
+}
 export declare class MerkleDistributor {
     private provider;
     private mdProgram?;
@@ -16,6 +28,7 @@ export declare class MerkleDistributor {
         claimProofEndpoint: string;
         merkleDistributorProgramId: PublicKey;
     });
+    getDistributorStatus(): Promise<any | null>;
     getUser(claimant: web3.PublicKey): Promise<UserResponse | null>;
     claimToken(claimant: web3.PublicKey): Promise<web3.TransactionInstruction[] | undefined>;
     getClaimStatus(claimant: web3.PublicKey): Promise<{

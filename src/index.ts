@@ -15,6 +15,19 @@ export interface UserResponse {
   amount: number;
   proof: number[][];
 }
+export interface DistributorResponse {
+  max_num_nodes: number,
+  max_total_claim: BN,
+  trees: Array<SingleDistributor>
+}
+
+export interface SingleDistributor {
+  distributor_pubkey: String,
+  merkle_root: Array<number>;
+  airdrop_version: number;
+  max_num_nodes: number;
+  max_total_claim: number;
+}
 
 export class MerkleDistributor {
   private mdProgram?: anchor.Program<MerkleDistributorType>;
@@ -32,6 +45,37 @@ export class MerkleDistributor {
     this.mdProgram = createMerkleDistributorProgram(this.provider, options.merkleDistributorProgramId);
     this.mint = options.targetToken;
     this.claimProofEndpoint = options.claimProofEndpoint;
+  }
+
+  async getDistributorStatus(): Promise<any | null> {
+    try {
+      const res = await fetch(`${this.claimProofEndpoint}/distributors`);
+
+      if (!res.ok) {
+        return null;
+      }
+      const distributor: DistributorResponse = await res.json();
+
+      const {
+        mdProgram,
+      } = this;
+
+      if (!mdProgram || distributor.trees.length < 1) return null;
+
+      const status = await mdProgram.account.merkleDistributor.fetchNullable(new web3.PublicKey(distributor.trees[0].distributor_pubkey));
+
+      if (status) {
+        return {
+          status,
+          distributor,
+        }
+      } else {
+        return null
+      }
+    } catch (error) {
+      return null;
+    }
+
   }
 
   async getUser(claimant: web3.PublicKey): Promise<UserResponse | null> {

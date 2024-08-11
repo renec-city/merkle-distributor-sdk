@@ -20,6 +20,33 @@ class MerkleDistributor {
         this.mint = options.targetToken;
         this.claimProofEndpoint = options.claimProofEndpoint;
     }
+    getDistributorStatus() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const res = yield fetch(`${this.claimProofEndpoint}/distributors`);
+                if (!res.ok) {
+                    return null;
+                }
+                const distributor = yield res.json();
+                const { mdProgram, } = this;
+                if (!mdProgram || distributor.trees.length < 1)
+                    return null;
+                const status = yield mdProgram.account.merkleDistributor.fetchNullable(new anchor_1.web3.PublicKey(distributor.trees[0].distributor_pubkey));
+                if (status) {
+                    return {
+                        status,
+                        distributor,
+                    };
+                }
+                else {
+                    return null;
+                }
+            }
+            catch (error) {
+                return null;
+            }
+        });
+    }
     getUser(claimant) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
