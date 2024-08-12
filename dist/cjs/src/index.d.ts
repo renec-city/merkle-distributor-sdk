@@ -31,6 +31,7 @@ export declare class MerkleDistributor {
     });
     get program(): anchor.Program<MerkleDistributorType> | undefined;
     getDistributorStatus(): Promise<any | null>;
+    getTest(): Promise<string>;
     getUser(claimant: web3.PublicKey): Promise<UserResponse | null>;
     claimToken(claimant: web3.PublicKey): Promise<web3.TransactionInstruction[] | undefined>;
     getClaimStatus(claimant: web3.PublicKey): Promise<{

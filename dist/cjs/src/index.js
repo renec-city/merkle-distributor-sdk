@@ -50,6 +50,11 @@ class MerkleDistributor {
             }
         });
     }
+    getTest() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return "test";
+        });
+    }
     getUser(claimant) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
