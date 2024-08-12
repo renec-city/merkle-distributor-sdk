@@ -23,18 +23,18 @@ class MerkleDistributor {
     get program() {
         return this.mdProgram;
     }
-    getDistributorStatus() {
+    static getDistributorStatus(con, merkleDistributorProgramId, claimProofEndpoint) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const res = yield fetch(`${this.claimProofEndpoint}/distributors`);
+                const res = yield fetch(`${claimProofEndpoint}/distributors`);
                 if (!res.ok) {
                     return null;
                 }
                 const distributor = yield res.json();
-                const { mdProgram, } = this;
-                if (!mdProgram || distributor.trees.length < 1)
+                if (distributor.trees.length < 1)
                     return null;
-                const status = yield mdProgram.account.merkleDistributor.fetchNullable(new anchor_1.web3.PublicKey(distributor.trees[0].distributor_pubkey));
+                const program = (0, utils_1.readOnlyMerkleDistributorProgram)(con, new anchor_1.web3.PublicKey(merkleDistributorProgramId));
+                const status = yield program.account.merkleDistributor.fetchNullable(new anchor_1.web3.PublicKey(distributor.trees[0].distributor_pubkey));
                 if (status) {
                     return {
                         status,

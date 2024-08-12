@@ -4,4 +4,8 @@ export function createMerkleDistributorProgram(provider, programId) {
     const program = new Program(MerkleDistributorIDL, programId, provider);
     return program;
 }
+export function readOnlyMerkleDistributorProgram(con, programId) {
+    const program = new Program(MerkleDistributorIDL, programId, { connection: con });
+    return program;
+}
 //# sourceMappingURL=program.js.map

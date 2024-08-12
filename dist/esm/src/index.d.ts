@@ -1,6 +1,6 @@
 import { BN, web3 } from '@coral-xyz/anchor';
 import * as anchor from '@coral-xyz/anchor';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, Connection } from '@solana/web3.js';
 import { MerkleDistributor as MerkleDistributorType } from './types/merkle_distributor';
 export interface UserResponse {
     merkle_tree: string;
@@ -30,7 +30,32 @@ export declare class MerkleDistributor {
         merkleDistributorProgramId: PublicKey;
     });
     get program(): anchor.Program<MerkleDistributorType> | undefined;
-    getDistributorStatus(): Promise<any | null>;
+    static getDistributorStatus(con: Connection, merkleDistributorProgramId: string, claimProofEndpoint: string): Promise<{
+        status: {
+            bump: number;
+            version: BN;
+            root: number[];
+            mint: web3.PublicKey;
+            base: web3.PublicKey;
+            tokenVault: web3.PublicKey;
+            maxTotalClaim: BN;
+            maxNumNodes: BN;
+            totalAmountClaimed: BN;
+            numNodesClaimed: BN;
+            startTs: BN;
+            endTs: BN;
+            clawbackStartTs: BN;
+            clawbackReceiver: web3.PublicKey;
+            admin: web3.PublicKey;
+            clawedBack: boolean;
+            enableSlot: BN;
+            closable: boolean;
+            buffer0: number[];
+            buffer1: number[];
+            buffer2: number[];
+        };
+        distributor: DistributorResponse;
+    } | null>;
     getTest(): Promise<string>;
     getUser(claimant: web3.PublicKey): Promise<UserResponse | null>;
     claimToken(claimant: web3.PublicKey): Promise<web3.TransactionInstruction[] | undefined>;

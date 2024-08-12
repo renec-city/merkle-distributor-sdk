@@ -1,11 +1,12 @@
 import { BN, web3 } from '@coral-xyz/anchor';
 import * as anchor from '@coral-xyz/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, TransactionInstruction } from '@solana/web3.js';
+import { PublicKey, TransactionInstruction, Connection } from '@solana/web3.js';
 
 import { MerkleDistributor as MerkleDistributorType } from './types/merkle_distributor';
 import {
   createMerkleDistributorProgram,
+  readOnlyMerkleDistributorProgram,
   deriveClaimStatus,
   getOrCreateATAInstruction,
 } from './utils';
@@ -51,22 +52,20 @@ export class MerkleDistributor {
     return this.mdProgram;
   }
 
-  async getDistributorStatus(): Promise<any | null> {
+  static async getDistributorStatus(con: Connection, merkleDistributorProgramId: string, claimProofEndpoint: string) {
     try {
-      const res = await fetch(`${this.claimProofEndpoint}/distributors`);
+      const res = await fetch(`${claimProofEndpoint}/distributors`);
 
       if (!res.ok) {
         return null;
       }
       const distributor: DistributorResponse = await res.json();
 
-      const {
-        mdProgram,
-      } = this;
+      if (distributor.trees.length < 1) return null;
 
-      if (!mdProgram || distributor.trees.length < 1) return null;
+      const program = readOnlyMerkleDistributorProgram(con, new web3.PublicKey(merkleDistributorProgramId))
 
-      const status = await mdProgram.account.merkleDistributor.fetchNullable(new web3.PublicKey(distributor.trees[0].distributor_pubkey));
+      const status = await program.account.merkleDistributor.fetchNullable(new web3.PublicKey(distributor.trees[0].distributor_pubkey));
 
       if (status) {
         return {
