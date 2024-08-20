@@ -11,7 +11,7 @@ import { ComputeBudgetProgram, Connection, Keypair, PublicKey, sendAndConfirmTra
 import { MerkleDistributor } from '../index';
 import { AnchorProvider, Wallet } from '@coral-xyz/anchor';
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    const mint = new PublicKey("x");
+    const mint = new PublicKey("xyz");
     const base = new PublicKey("x");
     const user = Keypair.fromSecretKey(Uint8Array[0]);
     let MERKLE_DISTRIBUTOR_PROGRAM_ID = new PublicKey("x");
